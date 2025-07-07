@@ -8,10 +8,16 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.15.0",
-    "hono": "^4.8.4"
+    "dotenv": "^17.0.1",
+    "hono": "^4.8.4",
+    "http-status-codes": "^2.3.0",
+    "mongodb": "^6.17.0",
+    "mongoose": "^8.16.1",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.17",
+    "prettier": "^3.6.2",
     "tsx": "^4.7.1",
     "typescript": "^5.8.3"
   }
