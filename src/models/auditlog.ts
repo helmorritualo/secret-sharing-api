@@ -2,10 +2,6 @@ import { Schema, model } from "mongoose";
 
 const AuditLogSchema = new Schema(
   {
-    secretId: {
-      type: String,
-      required: [true, "secretId is required"],
-    },
     event: {
       type: String,
       required: [true, "event type is required"],
