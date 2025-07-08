@@ -12,9 +12,11 @@ export async function hashOTP(otp: string): Promise<string> {
   return await bcrypt.hash(otp, 10);
 }
 
-export async function verifyOTP(
-  inputOtp: string,
-  hashedOtp: string
-): Promise<boolean> {
-  return await bcrypt.compare(inputOtp, hashedOtp);
+export async function verifyOtpHeader(
+  otpHeader: string | undefined,
+  hashedOtp: string | undefined
+) {
+  if (!hashedOtp) return true;
+  if (!otpHeader) return false;
+  return await bcrypt.compare(otpHeader, hashedOtp);
 }

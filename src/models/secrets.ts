@@ -2,6 +2,7 @@ import { Schema, model } from "mongoose";
 
 const SecretSchema = new Schema(
   {
+    _id: { type: String, required: true },
     content: {
       type: String,
       required: true,
@@ -36,6 +37,8 @@ const SecretSchema = new Schema(
     timestamps: true,
   }
 );
+
+SecretSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
 const Secret = model("Secret", SecretSchema);
 export default Secret;
