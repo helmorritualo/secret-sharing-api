@@ -3,8 +3,7 @@ import { Schema, model } from "mongoose";
 const AuditLogSchema = new Schema(
   {
     secretId: {
-      type: Schema.Types.ObjectId,
-      ref: "Secret",
+      type: String,
       required: [true, "secretId is required"],
     },
     event: {
@@ -18,17 +17,8 @@ const AuditLogSchema = new Schema(
     ip: {
       type: String,
       validate: {
-        validator: function (ip: string) {
-          // IPv4 regex
-          const ipv4Regex =
-            /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-
-          // IPv6 regex (simplified)
-          const ipv6Regex =
-            /^(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$|^::1$|^::$/;
-
-          return ipv4Regex.test(ip) || ipv6Regex.test(ip);
-        },
+        validator: (ip: string) =>
+          ip === "unknown" || /^[\d.:a-fA-F]+$/.test(ip),
         message: "Invalid IP address format",
       },
     },

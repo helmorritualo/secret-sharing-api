@@ -1,13 +1,7 @@
 import { StatusCodes } from "http-status-codes";
+import mongoose from "mongoose";
 
 export class BadRequestError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.message = message;
-  }
-}
-
-export class UnauthorizedError extends Error {
   constructor(message: string) {
     super(message);
     this.message = message;
@@ -35,18 +29,22 @@ export class InternalServerError extends Error {
   }
 }
 
-export class TooManyRequestsError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.message = message;
-  }
-}
-
 export function makeError<TError extends Error>(error: TError) {
   const defaultError = {
     success: false,
     message: error.message,
   };
+
+  if (error instanceof mongoose.Error.ValidationError) {
+    return {
+      statusCode: StatusCodes.BAD_REQUEST,
+      error: {
+        success: false,
+        message: "Validation failed",
+        details: Object.values(error.errors).map((e) => e.message),
+      },
+    };
+  }
 
   //* Custom Errors
   if (error.message.includes("Malformed JSON")) {
@@ -65,13 +63,6 @@ export function makeError<TError extends Error>(error: TError) {
     };
   }
 
-  if (error instanceof UnauthorizedError) {
-    return {
-      statusCode: StatusCodes.UNAUTHORIZED,
-      error: defaultError,
-    };
-  }
-
   if (error instanceof ForbiddenError) {
     return {
       statusCode: StatusCodes.FORBIDDEN,
@@ -82,13 +73,6 @@ export function makeError<TError extends Error>(error: TError) {
   if (error instanceof NotFoundError) {
     return {
       statusCode: StatusCodes.NOT_FOUND,
-      error: defaultError,
-    };
-  }
-
-  if (error instanceof TooManyRequestsError) {
-    return {
-      statusCode: StatusCodes.TOO_MANY_REQUESTS,
       error: defaultError,
     };
   }

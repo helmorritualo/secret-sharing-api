@@ -60,7 +60,6 @@ export const getSecret = async (c: Context) => {
         ip,
         userAgent,
       });
-
       throw new NotFoundError("Secret not found or has expired");
     }
 
@@ -85,7 +84,7 @@ export const getSecret = async (c: Context) => {
     try {
       await Secret.findByIdAndDelete(secretId);
     } catch (err) {
-      console.warn(`Failed to delete viewed secret ${secretId}`, err);
+      throw new BadRequestError("Failed to delete secret");
     }
 
     return c.json(
@@ -98,8 +97,6 @@ export const getSecret = async (c: Context) => {
       200
     );
   } catch (error) {
-    if (error instanceof NotFoundError || error instanceof ForbiddenError) {
-      throw error;
-    }
+    throw error;
   }
 };
