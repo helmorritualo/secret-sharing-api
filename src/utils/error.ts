@@ -46,6 +46,16 @@ export function makeError<TError extends Error>(error: TError) {
     };
   }
 
+  if (error.message.includes("LIMIT_UNEXPECTED_FILE")) {
+    return {
+      StatusCode: StatusCodes.BAD_REQUEST,
+      error: {
+        success: false,
+        message: "You can only upload up to 3 files.",
+      },
+    };
+  }
+
   //* Custom Errors
   if (error.message.includes("Malformed JSON")) {
     return {

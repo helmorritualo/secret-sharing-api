@@ -9,6 +9,28 @@ const SecretSchema = new Schema(
       minlength: [1, "Content must not be empty"],
       maxlength: [10000, "Content is too long"], // optional
     },
+    files: [
+      {
+        filename: {
+          type: String,
+          required: true,
+        },
+        originalName: {
+          type: String,
+          required: true,
+        },
+        mimetype: {
+          type: String,
+          required: true,
+          match:
+            /^application\/(pdf|vnd\.openxmlformats-officedocument\.wordprocessingml\.document)$/,
+        },
+        size: {
+          type: Number,
+          max: 5 * 1024 * 1024, // 5MB
+        },
+      },
+    ],
     otp: {
       type: String,
       validate: {
