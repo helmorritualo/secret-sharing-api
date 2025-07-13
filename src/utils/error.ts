@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 export class BadRequestError extends Error {
   constructor(message: string) {
     super(message);
+    this.name = "BadRequestError";
     this.message = message;
   }
 }
@@ -11,6 +12,7 @@ export class BadRequestError extends Error {
 export class ForbiddenError extends Error {
   constructor(message: string) {
     super(message);
+    this.name = "ForbiddenError";
     this.message = message;
   }
 }
@@ -18,6 +20,7 @@ export class ForbiddenError extends Error {
 export class NotFoundError extends Error {
   constructor(message: string) {
     super(message);
+    this.name = "NotFoundError";
     this.message = message;
   }
 }
@@ -25,6 +28,7 @@ export class NotFoundError extends Error {
 export class InternalServerError extends Error {
   constructor(message: string) {
     super(message);
+    this.name = "InternalServerError";
     this.message = message;
   }
 }
@@ -32,6 +36,7 @@ export class InternalServerError extends Error {
 export function makeError<TError extends Error>(error: TError) {
   const defaultError = {
     success: false,
+    name: error.name,
     message: error.message,
   };
 
